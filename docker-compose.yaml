@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  mongodb-primary:
+    image: mongo:4.0-rc
+    command:
+      - mongod
+      - --replSet
+      - mongoreplset
+      - --wiredTigerCacheSizeGB
+      - "0.5"
+      - --auth
+      - --keyFile
+      - /etc/mongodb-keyfile
+      - --bind_ip_all
+      - --clusterIpSourceWhitelist
+      - 0.0.0.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    volumes:
+      - ./primary/data/db:/data/db
+      - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
+      - ./init:/docker-entrypoint-initdb.d:ro
+      # - ./conf:/etc/mongo:ro
+    expose:
+      - 27017
+    ports:
+      - 27020:27017
+    restart: always
+  mongodb-secondary-1:
+    image: mongo:4.0-rc
+    command:
+      - mongod
+      - --replSet
+      - mongoreplset
+      - --wiredTigerCacheSizeGB
+      - "0.5"
+      - --auth
+      - --keyFile
+      - /etc/mongodb-keyfile
+      - --bind_ip_all
+      - --clusterIpSourceWhitelist
+      - 0.0.0.0
+    volumes:
+      - ./secondary-1/data/db:/data/db
+      - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
+      # - ./conf:/etc/mongo:ro
+    expose:
+      - 27017
+    ports:
+      - 27021:27017
+    restart: always
+  mongodb-secondary-2:
+    image: mongo:4.0-rc
+    command:
+      - mongod
+      - --replSet
+      - mongoreplset
+      - --wiredTigerCacheSizeGB
+      - "0.5"
+      - --auth
+      - --keyFile
+      - /etc/mongodb-keyfile
+      - --bind_ip_all
+      - --clusterIpSourceWhitelist
+      - 0.0.0.0
+    volumes:
+      - ./secondary-2/data/db:/data/db
+      - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
+      # - ./conf:/etc/mongo:ro
+    expose:
+      - 27017
+    ports:
+      - 27022:27017
+    restart: always
+  # mongodb-arbiter:
+  #   image: mongo:4.0-rc
+  #   command:
+  #     - --replSet
+  #     - mongoreplset
+  #     - --bind_ip
+  #     - mongodb-primary, mongodb-secondary-1, mongodb-secondary-2
+  #   expose:
+  #     - 27017
+  #   ports:
+  #     - 27023:27107
+    # restart: always
