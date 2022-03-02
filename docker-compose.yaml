@@ -4,25 +4,22 @@ services:
   mongodb-primary:
     image: mongo:4.0-rc
     command:
-      - mongod
       - --replSet
       - mongoreplset
-      - --wiredTigerCacheSizeGB
-      - "0.5"
+      - --smallfiles
       - --auth
       - --keyFile
       - /etc/mongodb-keyfile
       - --bind_ip_all
-      - --clusterIpSourceWhitelist
-      - 0.0.0.0
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=admin
+      - TZ=Asia/Tokyo
     volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
       - ./primary/data/db:/data/db
       - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
-      - ./init:/docker-entrypoint-initdb.d:ro
-      # - ./conf:/etc/mongo:ro
     expose:
       - 27017
     ports:
@@ -31,21 +28,18 @@ services:
   mongodb-secondary-1:
     image: mongo:4.0-rc
     command:
-      - mongod
       - --replSet
       - mongoreplset
-      - --wiredTigerCacheSizeGB
-      - "0.5"
+      - --smallfiles
       - --auth
       - --keyFile
       - /etc/mongodb-keyfile
       - --bind_ip_all
-      - --clusterIpSourceWhitelist
-      - 0.0.0.0
+    environment:
+      - TZ=Asia/Tokyo
     volumes:
       - ./secondary-1/data/db:/data/db
       - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
-      # - ./conf:/etc/mongo:ro
     expose:
       - 27017
     ports:
@@ -54,21 +48,18 @@ services:
   mongodb-secondary-2:
     image: mongo:4.0-rc
     command:
-      - mongod
       - --replSet
       - mongoreplset
-      - --wiredTigerCacheSizeGB
-      - "0.5"
+      - --smallfiles
       - --auth
       - --keyFile
       - /etc/mongodb-keyfile
       - --bind_ip_all
-      - --clusterIpSourceWhitelist
-      - 0.0.0.0
+    environment:
+      - TZ=Asia/Tokyo
     volumes:
       - ./secondary-2/data/db:/data/db
       - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
-      # - ./conf:/etc/mongo:ro
     expose:
       - 27017
     ports:

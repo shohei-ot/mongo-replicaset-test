@@ -38,5 +38,5 @@ rs.initiate({
     // 疎通のタイムアウト: 10 秒
     electionTimeoutMillis: 10000
   }
-})
-rs.secondaryOk()
+});
+rs.secondaryOk();
