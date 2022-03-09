@@ -19,20 +19,20 @@ rs.initiate({
         "member_type": "secondary"
       }
     },
-    {
-      _id: 2,
-      host: 'mongodb-secondary-2:27017',
-      priority: 10,
-      tags: {
-        "member_type": "secondary"
-      }
-    },
     // {
-    //   _id: 0,
-    //   host: 'mongodb-primary:27017',
-    //   priority: 0,
-    //   arbiterOnly: true
-    // }
+    //   _id: 2,
+    //   host: 'mongodb-secondary-2:27017',
+    //   priority: 10,
+    //   tags: {
+    //     "member_type": "secondary"
+    //   }
+    // },
+    {
+      _id: 99,
+      host: 'mongodb-arbiter:27017',
+      priority: 0,
+      arbiterOnly: true
+    }
   ],
   settings: {
     // 疎通のタイムアウト: 10 秒

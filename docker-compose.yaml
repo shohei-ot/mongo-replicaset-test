@@ -45,27 +45,7 @@ services:
     ports:
       - 27021:27017
     restart: always
-  mongodb-secondary-2:
-    image: mongo:4.0-rc
-    command:
-      - --replSet
-      - mongoreplset
-      - --smallfiles
-      - --auth
-      - --keyFile
-      - /etc/mongodb-keyfile
-      - --bind_ip_all
-    environment:
-      - TZ=Asia/Tokyo
-    volumes:
-      - ./secondary-2/data/db:/data/db
-      - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
-    expose:
-      - 27017
-    ports:
-      - 27022:27017
-    restart: always
-  # mongodb-arbiter:
+  # mongodb-secondary-2:
   #   image: mongo:4.0-rc
   #   command:
   #     - --replSet
@@ -78,9 +58,29 @@ services:
   #   environment:
   #     - TZ=Asia/Tokyo
   #   volumes:
+  #     - ./secondary-2/data/db:/data/db
   #     - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
   #   expose:
   #     - 27017
   #   ports:
-  #     - 27023:27017
+  #     - 27022:27017
   #   restart: always
+  mongodb-arbiter:
+    image: mongo:4.0-rc
+    command:
+      - --replSet
+      - mongoreplset
+      - --smallfiles
+      - --auth
+      - --keyFile
+      - /etc/mongodb-keyfile
+      - --bind_ip_all
+    environment:
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
+    expose:
+      - 27017
+    ports:
+      - 27023:27017
+    restart: always
