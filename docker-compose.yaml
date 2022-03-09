@@ -70,10 +70,17 @@ services:
   #   command:
   #     - --replSet
   #     - mongoreplset
-  #     - --bind_ip
-  #     - mongodb-primary, mongodb-secondary-1, mongodb-secondary-2
+  #     - --smallfiles
+  #     - --auth
+  #     - --keyFile
+  #     - /etc/mongodb-keyfile
+  #     - --bind_ip_all
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #   volumes:
+  #     - ./key/mongodb-keyfile:/etc/mongodb-keyfile:ro
   #   expose:
   #     - 27017
   #   ports:
-  #     - 27023:27107
-    # restart: always
+  #     - 27023:27017
+  #   restart: always
